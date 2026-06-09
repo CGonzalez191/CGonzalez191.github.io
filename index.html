@@ -26,8 +26,7 @@
   --neon-blue-glow: 0 0 6px rgba(79,195,255,0.9), 0 0 18px rgba(79,195,255,0.5), 0 0 32px rgba(79,195,255,0.2);
 }
 
-/* theme toggle button */
-#theme-toggle{ display:none; }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;cursor:none;height:100vh;width:100vw}
 
@@ -48,30 +47,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .nav-links a:hover,.nav-links a.act{color:var(--accent);text-shadow:var(--neon-white-text)}
 
 /* ── mini floating nav (fullscreen monitor mode) ── */
-#mini-nav{
-  position:fixed;bottom:4.5rem;left:50%;transform:translateX(-50%);
-  z-index:800;
-  display:flex;align-items:center;gap:0;
-  background:rgba(8,11,18,.82);
-  border:1px solid #1e2a3a;
-  border-radius:100px;
-  backdrop-filter:blur(16px);
-  padding:.35rem .45rem;
-  opacity:0;pointer-events:none;
-  transition:opacity .35s ease, transform .35s ease;
-  transform:translateX(-50%) translateY(12px);
-}
-#mini-nav.show{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
-.mn-btn{
-  font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;
-  color:var(--muted);text-decoration:none;cursor:none;
-  padding:.45rem .9rem;border-radius:100px;
-  transition:color .2s,background .2s;
-  white-space:nowrap;
-}
-.mn-btn:hover,.mn-btn.act{color:var(--accent);background:rgba(79,255,176,.08);text-shadow:var(--neon-white-dim)}
-.mn-sep{width:1px;height:14px;background:#1e2a3a;flex-shrink:0}
-
 /* ── dots ───────────────────────────────── */
 #dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);z-index:500;display:flex;flex-direction:column;gap:.75rem}
 .dot{width:6px;height:6px;border-radius:50%;border:1px solid var(--muted);transition:all .3s;cursor:none}
@@ -256,6 +231,7 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .t-out p strong{color:var(--text);font-weight:700}
 .t-out .btn{margin-top:.4rem;padding:.55rem 1.3rem;font-size:.72rem}
 .t-sep{color:var(--line);font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;padding:.25rem 0}
+#tools-inline{display:none}
 .cb{display:inline-block;width:7px;height:14px;background:var(--accent);margin-left:3px;animation:blink-c 1s step-end infinite;vertical-align:text-bottom;box-shadow:var(--neon-white)}
 @keyframes blink-c{50%{opacity:0}}
 /* ── TOOLS CAROUSEL ── */
@@ -568,13 +544,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .ct-prompt-sym{color:#4fffb0;margin-right:.5rem}
 .ct-blink{color:#4fffb0;animation:blink-ct .8s step-end infinite}
 @keyframes blink-ct{50%{opacity:0}}
-.footer-note{
-  position:absolute;bottom:2.5rem;left:0;right:0;text-align:center;
-  font-family:var(--mono);font-size:.65rem;color:var(--muted);
-  opacity:0;transition:opacity .8s .5s;z-index:1;
-}
-#s2.ct-done .footer-note{opacity:1}
-
 /* ── MONITOR EXPAND OVERLAY (Projects → Contact) ── */
 #mon-expand{
   position:fixed;inset:0;z-index:700;
@@ -625,13 +594,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 }
 #ct-body.ct-show{opacity:1}
 #ct-lines{display:flex;flex-direction:column;gap:0;align-items:center;text-align:center}
-.footer-note{
-  position:absolute;bottom:2.5rem;left:0;right:0;text-align:center;
-  font-family:var(--mono);font-size:.65rem;color:var(--muted);
-  opacity:0;transition:opacity .8s;z-index:1;
-}
-#mon-expand.ct-done .footer-note{opacity:1}
-
 
 /* zoom overlay (S0→S1 transition) */
 #mon-zoom{
@@ -653,6 +615,168 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 .fi.show{opacity:1;transform:none}
 
 ::-webkit-scrollbar{display:none}
+
+/* ════════════════════════════════
+   RESPONSIVE — TABLET & MOBILE
+   El motor de page-flip y el tamaño del monitor
+   NO se modifican — el JS depende de ellos para
+   calcular las transiciones de zoom y expand.
+   Solo se adaptan los layouts internos.
+════════════════════════════════ */
+
+/* ── Tablet (≤1024px) ── */
+@media (max-width:1024px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{gap:1.5rem}
+  .nav-links a{font-size:.68rem}
+
+  #s0{padding:0 4vw;gap:2rem}
+  #desk-wrap{width:34vw}
+  .hero-photo-frame{width:210px;height:210px}
+  .hero-name{font-size:clamp(2.4rem,5vw,4.5rem)}
+
+  .ide-sidebar-left{width:130px}
+  .ide-sidebar-right{width:190px}
+  .tool-badge-name{font-size:.62rem}
+}
+
+/* ── Mobile (≤768px) ── */
+@media (max-width:768px){
+
+  /* Cursor */
+  #cur,#cur-ring{display:none}
+
+  /* Nav */
+  nav{padding:.85rem 1rem}
+  .nav-links{gap:.9rem}
+  .nav-links a{font-size:.6rem;letter-spacing:.05em}
+  .nav-logo{font-size:.72rem}
+  #dots{right:.6rem;gap:.55rem}
+
+  /* ── HERO ── */
+  #s0{
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:5rem 1.4rem 2.5rem;
+    gap:1.4rem;
+    text-align:center;
+  }
+  #desk-wrap{display:none}
+  .hero-photo-frame{width:155px;height:155px}
+  .hero-name{font-size:clamp(1.9rem,9vw,3rem)}
+  .hero-role{font-size:.75rem}
+  .hero-tag{font-size:.63rem;justify-content:center}
+  .hero-cta{flex-wrap:wrap;justify-content:center;gap:.6rem}
+  .btn{font-size:.63rem;padding:.7rem 1.2rem}
+  .scroll-hint{display:none}
+
+  /* ═══════════════════════════════════════════════
+     MONITOR (S1) — TAMAÑO Y LAYOUT
+     Reducimos padding-top de #s1 para que el monitor
+     quepa en pantalla. El JS lee getComputedStyle(s1)
+     .paddingTop en tiempo real, así que sigue en sync.
+  ═══════════════════════════════════════════════ */
+  #s1{padding-top:2.8rem}
+  #mon{
+    height:min(720px, calc(100vh - 3.2rem));
+    width:min(1500px,98vw);
+  }
+  #mon-stand{display:none}
+
+  /* Ocultar sidebar izquierda (file tree) */
+  .ide-sidebar-left{display:none}
+
+  /* Tabs más pequeños para que quepan en el monitor angosto */
+  .ide-tab{font-size:.58rem;padding:0 .5rem}
+  .ide-tab-icon{font-size:.6rem}
+
+  /* ide-row se convierte en columna:
+     texto arriba → carrusel abajo */
+  .ide-layout{height:100%}
+  .ide-row{flex-direction:column;flex:1;min-height:0}
+
+  /* Texto central */
+  .ide-center{
+    flex:1;
+    min-height:0;
+    padding:.55rem .9rem .7rem;
+    overflow-y:auto;
+  }
+  .t-out{flex:unset;padding-left:.8rem}
+  .t-out h2{font-size:clamp(1.2rem,5.5vw,1.6rem);margin-bottom:.3rem;line-height:1.1}
+  .t-out p{font-size:.85rem;line-height:1.55;margin-bottom:.9rem}
+  .t-out .btn{margin-top:.1rem;padding:.45rem .9rem;font-size:.72rem}
+  .t-sep{font-size:.62rem;padding:.08rem 0}
+  .t-line{font-size:.78rem}
+
+  .ide-sidebar-right{display:none}
+  #prompt-line{margin-top:auto}
+  #tools-inline{
+    display:flex;align-items:center;
+    gap:8px;padding:.4rem 0 .4rem 1.4rem;
+    min-height:44px;overflow:hidden;
+    mask-image:linear-gradient(to right,transparent,black 8%,black 85%,transparent);
+    -webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 85%,transparent);
+  }
+  #tools-inline .ti-track{
+    display:flex;gap:8px;align-items:center;
+    animation:ti-scroll 18s linear infinite;
+    will-change:transform;
+    flex-shrink:0;
+  }
+  @keyframes ti-scroll{
+    0%{transform:translateX(0)}
+    100%{transform:translateX(-50%)}
+  }
+  #tools-inline .ti-badge{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:6px 14px 6px 8px;border-radius:6px;
+    border:1px solid rgba(200,200,200,.18);
+    background:rgba(200,200,200,.05);
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.04em;
+    white-space:nowrap;flex-shrink:0;
+  }
+  #tools-inline .ti-badge svg{width:18px;height:18px;flex-shrink:0}
+
+  /* Status bar */
+  .statusbar{height:22px;min-height:22px;font-size:.49rem;gap:.3rem;padding:0 .55rem;flex-shrink:0}
+
+  /* Flechas internas — encima del status bar */
+  #slide-nav{bottom:80px;right:.55rem;gap:.28rem;z-index:25}
+  .s-arrow{font-size:.54rem;padding:.24rem .48rem}
+
+  /* Proyectos grid: una columna */
+  .explorer-wrap{padding:.7rem .8rem;overflow-y:auto}
+  .explorer-grid{grid-template-columns:1fr !important;max-width:100% !important}
+  .explorer-item{padding:1.2rem 1rem}
+  .e-name{font-size:.88rem}
+  .e-desc{font-size:.76rem}
+  .e-tags .ptag{font-size:.62rem}
+  .proj-detail-sidebar{display:none}
+  .proj-detail-layout{flex-direction:column}
+  .proj-detail-img{height:200px}
+
+  /* Contacto */
+  #ct-body{padding:3vh 5vw}
+  .ct-title-block{font-size:clamp(1.5rem,7vw,2.6rem)}
+  .ct-sub{font-size:.78rem}
+  .ct-links-row{gap:.45rem}
+  .ct-clink{font-size:.62rem;padding:.55rem .9rem}
+
+}
+}
+
+/* ── Small mobile (≤480px) ── */
+@media (max-width:480px){
+  .hero-photo-frame{width:130px;height:130px}
+  .hero-name{font-size:clamp(1.7rem,8vw,2.5rem)}
+  .hero-cta{flex-direction:column;align-items:center}
+  .btn{width:100%;max-width:220px;text-align:center}
+
+  .ct-title-block{font-size:clamp(1.3rem,6vw,2rem)}
+  .ct-clink{font-size:.58rem;padding:.5rem .75rem}
+}
 </style>
 </head>
 <body>
@@ -670,7 +794,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
     <li><a href="#" data-page="2">Projects</a></li>
     <li><a href="#" data-page="3">Contact</a></li>
   </ul>
-  <button id="theme-toggle" title="Cambiar tema"><span class="t-icon">&#9728;&#65039;</span><span id="theme-label">Modo claro</span></button>
 </nav>
 
 <div id="dots">
@@ -678,17 +801,7 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
   <div class="dot" data-page="1"></div>
   <div class="dot" data-page="2"></div>
   <div class="dot" data-page="3"></div>
-</div>
 
-<!-- mini floating nav — visible during fullscreen monitor -->
-<div id="mini-nav">
-  <a class="mn-btn" data-page="0">Home</a>
-  <div class="mn-sep"></div>
-  <a class="mn-btn" data-page="1">About</a>
-  <div class="mn-sep"></div>
-  <a class="mn-btn" data-page="2">Projects</a>
-  <div class="mn-sep"></div>
-  <a class="mn-btn" data-page="3">Contact</a>
 </div>
 
 <div id="scroll-wrap">
@@ -829,10 +942,10 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
                   <h2>Código.<br>Aprendizaje.<br>Impacto.</h2>
                   <p>Soy <strong>Carlos José González Cambas</strong>, estudiante de Ingeniería de Sistemas en la <strong>Universidad del Sinú</strong>, con enfoque en el desarrollo web full-stack.</p>
                   <p>Entusiasta y autodidacta, con experiencia real construyendo plataformas completas con <strong>autenticación, bases de datos relacionales y almacenamiento en la nube</strong>.</p>
-                  <a href="#" class="btn btn-ghost" data-page="3">Hablemos →</a>
                 </div>
                 <div class="t-sep">──────────────────────────────────────────────</div>
-                <div class="t-line"><span class="pu">nero</span>:<span class="pd">~</span>$ <span class="cb"></span></div>
+                <div class="t-line" id="prompt-line"><span class="pu">nero</span>:<span class="pd">~</span>$ <span class="cb"></span></div>
+                <div id="tools-inline"></div>
               </div>
               <div class="ide-sidebar ide-sidebar-right">
                 <div class="sidebar-title">TOOLS</div>
@@ -941,7 +1054,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
           <span class="ct-blink">█</span>
         </div>
       </div>
-      <div class="footer-note">2026 Carlos González Cambas</div>
     </div>
   </div>
 </div>
@@ -956,20 +1068,6 @@ nav.nav-hide{opacity:0;pointer-events:none;transform:translateY(-8px)}
 
 <script>
 // ── Mini nav ─────────────────────────────────────────────
-const miniNav = document.getElementById('mini-nav');
-const miniNavBtns = miniNav.querySelectorAll('.mn-btn[data-page]');
-
-miniNavBtns.forEach(btn=>{
-  btn.addEventListener('click',()=> goTo(parseInt(btn.dataset.page)));
-  btn.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='50px';ring.style.height='50px'});
-  btn.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='36px';ring.style.height='36px'});
-});
-
-function updateMiniNav(p){
-  // show mini-nav only when fullscreen (contact page, or during expand)
-  miniNavBtns.forEach(b=> b.classList.toggle('act', parseInt(b.dataset.page)===p));
-}
-
 function setFullscreenUI(visible){
   const nav = document.getElementById('nav');
   const dots = document.getElementById('dots');
@@ -977,7 +1075,6 @@ function setFullscreenUI(visible){
   dots.style.transition = 'opacity .35s';
   dots.style.opacity = visible ? '0' : '';
   dots.style.pointerEvents = visible ? 'none' : '';
-  miniNav.classList.toggle('show', visible);
 }
 
 // ── Cursor ───────────────────────────────────────────────
@@ -1038,7 +1135,6 @@ function updateUI(p){
   dotsEl.forEach((d,i)=>d.classList.toggle('active',i===p));
   navLinks.forEach(a=>a.classList.toggle('act',parseInt(a.dataset.page)===p));
   document.getElementById('nav').classList.toggle('on',p>0);
-  updateMiniNav(p);
 }
 
 // ── fade-in elements for section ─────────────────────────
@@ -1093,9 +1189,17 @@ function captureSvgRect(){
 // Compute where the SVG monitor screen is when S0 is at its normal position
 // i.e. sections translateY(0). Used for backward animation target.
 function getSvgRestRect(){
-  if(cachedSvgRect) return cachedSvgRect;
-  // fallback estimate
-  return {left:window.innerWidth*.45, top:window.innerHeight*.18, width:265, height:192};
+  if(cachedSvgRect && cachedSvgRect.width>1) return cachedSvgRect;
+  // On mobile (SVG hidden), animate from center of screen
+  const sz = Math.min(window.innerWidth, window.innerHeight) * 0.28;
+  const w = sz * 1.38;
+  const h = sz;
+  return {
+    left: (window.innerWidth - w) / 2,
+    top: (window.innerHeight - h) / 2,
+    width: Math.round(w),
+    height: Math.round(h)
+  };
 }
 
 function doZoom(forward, onDone){
@@ -1139,13 +1243,20 @@ function doZoom(forward, onDone){
       .map(s=>document.querySelector(s)).concat(document.getElementById('desk-wrap'))
       .filter(Boolean);
 
-    // 1. Compute where the monitor will be in S1 without moving sections
+    // 1. Compute where the monitor will be in S1
+    //    On mobile the CSS may differ from the hardcoded formula,
+    //    so we snap sections first (hidden), read the real rect, then snap back.
     const realMon = (()=>{
-      const pt  = parseFloat(getComputedStyle(document.getElementById('s1')).paddingTop) || 56;
-      const w   = Math.min(1500, window.innerWidth * 0.98);
-      const h   = Math.min(860,  window.innerHeight * 0.91);
-      const l   = (window.innerWidth - w) / 2;
-      const t   = pt + (window.innerHeight - pt - h) / 2;
+      // Fast path: if monitor is currently visible (shouldn't be on forward zoom
+      // since we're on S0), fall back to CSS formula.
+      // Better: temporarily reveal S1 off-screen, measure, restore.
+      // Simplest reliable approach: mirror exactly what the CSS does.
+      const s1 = document.getElementById('s1');
+      const pt = parseFloat(getComputedStyle(s1).paddingTop) || 0;
+      const w  = Math.min(1500, window.innerWidth * 0.98);
+      const h  = Math.min(860,  window.innerHeight * 0.91);
+      const l  = (window.innerWidth - w) / 2;
+      const t  = pt + (window.innerHeight - pt - h) / 2;
       return {left:l, top:t, width:w, height:h};
     })();
 
@@ -1258,6 +1369,9 @@ function doMonExpand(onDone){
   const DUR = 700;
   const EASE2 = 'cubic-bezier(.4,0,.2,1)';
 
+
+  setFullscreenUI(true);
+
   // start position = real monitor rect
   const r = monEl.getBoundingClientRect();
   monExpand.style.visibility = 'visible';
@@ -1284,8 +1398,6 @@ function doMonExpand(onDone){
 
   // after expand: flicker off
   setTimeout(()=>{
-    setFullscreenUI(true);
-    updateMiniNav(3);
     // quick white flash then black
     meFlicker.style.opacity = '0.9';
     setTimeout(()=>{
@@ -1464,6 +1576,8 @@ function resetContact(){
 }
 
 // ── Main navigation ──────────────────────────────────────
+function isMobile(){ return window.innerWidth <= 768 }
+
 function goTo(target, instant){
   if(target===page||(busy&&!instant)) return;
   if(target<0||target>=PAGE_COUNT) return;
@@ -1476,15 +1590,22 @@ function goTo(target, instant){
   const secFrom = pageToSection(from);
   const secTo   = pageToSection(to);
 
-  // ── Case 1: Home ↔ About (zoom + section change) ──
+  // ── Helper: section slide (mobile fallback for zoom) ──
+  function slideTo(secIdx, slideVal, cb){
+    if(slideVal!==undefined) moveSlide(slideVal);
+    moveSections(secIdx);
+    fadeInSection(secIdx);
+    setTimeout(()=>{ if(cb) cb(); else busy=false; }, 900);
+  }
+
+  // ── Case 1: Home ↔ About ──
   if((from===0&&to===1)||(from===1&&to===0)){
-    const fwd = to===1;
-    if(fwd){
-      captureSvgRect(); // grab SVG position while S0 still in viewport
-      moveSlide(0);
-      doZoom(true,()=>{ busy=false; });
+    if(isMobile()){
+      slideTo(secTo, to===1?0:undefined);
     } else {
-      doZoom(false,()=>{ busy=false; });
+      const fwd = to===1;
+      if(fwd){ captureSvgRect(); moveSlide(0); doZoom(true,()=>{ busy=false; }); }
+      else { doZoom(false,()=>{ busy=false; }); }
     }
     return;
   }
@@ -1496,7 +1617,7 @@ function goTo(target, instant){
     return;
   }
 
-  // ── Case 3: Projects → Contact (monitor expands → blackout → terminal) ──
+  // ── Case 3: Projects → Contact ──
   if(from===2&&to===3){
     doMonExpand(()=>{
       moveSections(2,true);
@@ -1508,47 +1629,32 @@ function goTo(target, instant){
     return;
   }
 
-  // ── Case 4: Contact → Projects (monitor shrinks back) ──
+  // ── Case 4: Contact → Projects ──
   if(from===3&&to===2){
     typingActive = false;
     setFullscreenUI(false);
     const DUR = 650;
     const EASE2 = 'cubic-bezier(.4,0,.2,1)';
-
-    // 1. Fade out the terminal content
     document.getElementById('ct-body').style.transition = 'opacity .25s ease';
     document.getElementById('ct-body').style.opacity = '0';
-
     setTimeout(()=>{
-      // 2. Move S1 back into position (hidden under the fullscreen shell)
       moveSections(1, true);
       monEl.style.opacity = '0';
-
-      // 3. Read where the monitor will land
       const r = monEl.getBoundingClientRect();
-
-      // 4. Shrink shell from fullscreen back to monitor position
       requestAnimationFrame(()=>requestAnimationFrame(()=>{
         meShell.style.transition = [
-          `left ${DUR}ms ${EASE2}`,
-          `top ${DUR}ms ${EASE2}`,
-          `width ${DUR}ms ${EASE2}`,
-          `height ${DUR}ms ${EASE2}`,
-          `border-radius ${DUR}ms ${EASE2}`,
-          `border-width ${DUR}ms ${EASE2}`
+          `left ${DUR}ms ${EASE2}`,`top ${DUR}ms ${EASE2}`,
+          `width ${DUR}ms ${EASE2}`,`height ${DUR}ms ${EASE2}`,
+          `border-radius ${DUR}ms ${EASE2}`,`border-width ${DUR}ms ${EASE2}`
         ].join(',');
         setMeRect(r.left, r.top, r.width, r.height, 14, 3);
       }));
-
-      // 5. When shrink lands, crossfade real monitor in and hide shell
       setTimeout(()=>{
         monEl.style.transition = 'opacity .3s ease';
         monEl.style.opacity = '1';
         meShell.style.transition = 'opacity .3s ease';
         meShell.style.opacity = '0';
-
         setTimeout(()=>{
-          // cleanup
           monEl.style.transition = 'none';
           monEl.style.opacity = '';
           resetContact();
@@ -1600,9 +1706,9 @@ function goTo(target, instant){
     return;
   }
 
-  // ── Case 6: About → Contact (skip projects) ──
+  // ── Case 6: About → Contact ──
   if(from===1&&to===3){
-    moveSlide(1); // make sure projects panel is showing so expand looks right
+    moveSlide(1);
     setTimeout(()=>{
       doMonExpand(()=>{
         moveSections(2,true);
@@ -1615,27 +1721,44 @@ function goTo(target, instant){
     return;
   }
 
-  // ── Case: Home → Projects (zoom → slide to projects) ──
+  // ── Home → Projects ──
   if(from===0&&to===2){
-    captureSvgRect();
-    moveSlide(1);
-    doZoom(true,()=>{ busy=false; });
+    if(isMobile()){
+      slideTo(secTo, 1);
+    } else {
+      captureSvgRect();
+      moveSlide(1);
+      doZoom(true,()=>{ busy=false; });
+    }
     return;
   }
 
-  // ── Case 7: Home → Contact (zoom → slide → expand) ──
+  // ── Home → Contact ──
   if(from===0&&to===3){
-    captureSvgRect();
     moveSlide(1);
-    doZoom(true,()=>{
-      doMonExpand(()=>{
-        moveSections(2,true);
-        doMonShrinkOut(()=>{
-          typewriterContact();
-          busy=false;
+    if(isMobile()){
+      moveSections(1,true);
+      requestAnimationFrame(()=>{
+        doMonExpand(()=>{
+          moveSections(2,true);
+          doMonShrinkOut(()=>{
+            typewriterContact();
+            busy=false;
+          });
         });
       });
-    });
+    } else {
+      captureSvgRect();
+      doZoom(true,()=>{
+        doMonExpand(()=>{
+          moveSections(2,true);
+          doMonShrinkOut(()=>{
+            typewriterContact();
+            busy=false;
+          });
+        });
+      });
+    }
     return;
   }
 
@@ -1973,6 +2096,19 @@ function buildToolsCarousel(){
     el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='36px';ring.style.height='36px'});
   });
 }
+// Inline tools carousel for mobile
+function buildMobileTools(){
+  const el = document.getElementById('tools-inline');
+  if(!el) return;
+  const allTools = [...TOOLS, ...TOOLS];
+  el.innerHTML = `<div class="ti-track">${allTools.map(t=>`
+    <div class="ti-badge" style="border-color:${t.color}33;">
+      ${t.svg}
+      <span style="color:${t.color};text-shadow:0 0 6px ${t.color}66;">${t.name}</span>
+    </div>
+  `).join('')}</div>`;
+}
+buildMobileTools();
 buildToolsCarousel();
 
 // Render tech tags in explorer grid
@@ -2075,22 +2211,6 @@ setTimeout(()=>{
     setTimeout(()=>el.classList.add('show'),80+i*120);
   });
 },50);
-
-// ── Theme toggle ─────────────────────────────────────────
-const themeBtn   = document.getElementById('theme-toggle');
-const themeLabel = document.getElementById('theme-label');
-const themeIcon  = themeBtn.querySelector('.t-icon');
-let lightMode = false;
-
-themeBtn.addEventListener('click', ()=>{
-  lightMode = !lightMode;
-  document.body.classList.toggle('light', lightMode);
-  themeLabel.textContent = lightMode ? 'Modo oscuro' : 'Modo claro';
-  themeIcon.textContent  = lightMode ? '\uD83C\uDF19' : '\u2600\uFE0F';
-});
-
-themeBtn.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='50px';ring.style.height='50px'});
-themeBtn.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='36px';ring.style.height='36px'});
 
 // ── Project preview carousel ──
 document.addEventListener('click', e => {
